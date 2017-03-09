@@ -37,9 +37,21 @@ var app = express();
 
 // make call to page get ip from  user
 app.use(function(req,res,next){
+  console.log(`${req.method} request for '${req.url}'`);
+
 // have to hard code IP, when not using localhost, this would be uncommented
+  var localhosts = ["localhost", "::1"]
+  if ( localhosts.indexOf(req.ip) >= 0) {
+// if index is 0 or above then the value is in array
+    console.log(req.ip)
+
+    // hardcode ip
+    var ip = "104.251.99.162"
+  } else {
+    var ip = req.ip;
+
+  }
   // var ip = req.ip
-  var ip = "45.3.11.138"
   // console.log(ip);
 
 // call ip-api
