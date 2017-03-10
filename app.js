@@ -34,41 +34,65 @@ var app = express();
 //   next()
 // })
 
+// PLACES THE POSTS TO THE REQ OBJECT
 
-// make call to page get ip from  user
+// if we have json, we will parse it
+app.use(bodyParser.json())
+
+// data coming from website form
+app.use(bodyParser.urlencoded({extended:false}));
+
+// display process in console
 app.use(function(req,res,next){
-  console.log(`${req.method} request for '${req.url}'`);
+  console.log(`${req.method} request for '${req.url}' - ${req.body.user_info_field}`);
 
-// have to hard code IP, when not using localhost, this would be uncommented
+  var ip = req.ip;
+
+  // make call to page get ip from  user
+
+  // have to hard code IP, when not using localhost, this would be uncommented
   var localhosts = ["localhost", "::1"];
   if (localhosts.indexOf(req.ip) >= 0) {
-// if index is 0 or above then the value is in array
-    console.log(req.ip)
+  // if index is 0 or above then the value is in array
+  // console.log(req.ip)
 
     // hardcode ip
-    var ip = "104.251.99.162"
-  } else {
-    var ip = req.ip;
+    ip = "104.251.99.162"
+  }
 
+
+  //input field value
+  if (req.body.user_info_field) {
+    if ( req.body.user_info_field.match(/\d+\.\d+\.\d+\.\d+/g)){
+      // it looks like an ip
+      ip = req.body.user_info_field;
+    } else {
+      // assuming input to be a city
+      req.customCity = req.body.user_info_field;
+
+    }
   }
   // var ip = req.ip
-  // console.log(ip);
+  console.log('IP:', ip);
 
 // call ip-api
   request(`http://ip-api.com/json/${ip}`,function (error, response, body){
 
 //put the entire body back into the req object, then can be used later.
     req.ipinfo = JSON.parse(body); //if req is string, it needs to be parsed
+    console.log('IPINFO', req.ipinfo)
     next();
   })
 });
 
+app.use(cors());
+
 app.use(function(req,res,next){
   // req.ipinfo
-    console.log('IPINFO:', typeof req.ipinfo, req.ipinfo);
+    // console.log('IPINFO:', typeof req.ipinfo, req.ipinfo);
 
-
-    var cityName = req.ipinfo.city;
+//if customCity is present use customCity, else use ipinfo.city
+    var cityName = req.customCity ? req.customCity : req.ipinfo.city;
     console.log('CITY:', cityName);
 
     if(!cityName){
@@ -87,9 +111,10 @@ app.use(function(req,res,next){
 
 })
 
-app.get("/", function(req,res){
+function respondWeather(req, res){
   res.send({
-    "City Name": req.weatherInfo.name, "Current Conditions": req.weatherInfo.weather[0].main,
+    "City Name": !!req.weatherInfo && req.weatherInfo.name,
+    "Current Conditions": req.weatherInfo.weather[0].main,
     "Description": req.weatherInfo.weather[0].description,
     "Temp":req.weatherInfo.main.temp,
     "Humidity":req.weatherInfo.main.humidity,
@@ -97,7 +122,9 @@ app.get("/", function(req,res){
     "Min Temp":req.weatherInfo.main.temp_min,
     "Max Temp":req.weatherInfo.main.temp_max
     })
-})
+}
+app.post('/', respondWeather);
+app.get('/', respondWeather);
 
 app.get("/enter", function(req,res){
   res.render('index', {
@@ -105,6 +132,7 @@ app.get("/enter", function(req,res){
     instruction: 'Enter your city or IP address here.'
   });
 });
+
 
 // app.use('/', function(req, res, next){
 //   console.log('test')

@@ -7,11 +7,13 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
-    <form onsubmit="ipSubmit()">
-      <%= instruction %> => <input type="text" />
+
+    <form action="/" method='POST' onsubmit="ipSubmit()">
+      <%= instruction %> => <input type="text" name="user_info_field" id="user_info_id" />
       <input type="submit" />
+
     </form>
     <p>Or skip, and have browser complete automatically</p>
-    <a href="/"><button type="button" />Auto</a> 
+    <a href="/">Auto</a>
   </body>
 </html>
