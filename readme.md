@@ -10,7 +10,8 @@ To Run: `DEBUG=express_test3:* npm start`
 Navigate to `localhost:3000/enter`
 
 I was able to create a simple UI where the user enters the data themselves.   The input only accepts correctly spelled city names, or ip address with four decimals, i.e. `1.11.22.33` or, if you would rather the browser do it, just click the auto link.
-The user must navigate themselves by typing in either `localhost:3000/enter`, `localhost:3000`
+
+If you don't want to use the auto button, you can navigate yourself to `localhost:3000`
 
 To Note:
 - localhost does not supply an ip so one is hardcoded, however should a real ip be present it is written to (hopefully)
