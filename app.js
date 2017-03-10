@@ -9,31 +9,6 @@ var index = require('./routes/index');
 
 var app = express();
 
-// app.use(function(req, res, next){
-//   var ip = req.ip.toString()
-//   console.log(ip)
-//   console.log(typeof(ip))
-//   console.log('test')
-//   next()
-// },
-// )
-
-// var corsOptions  = {
-//   origin: 'http://ip-api.com/json',
-//   originSuccessStatus: 200
-// }
-//
-// app.get("/",cors(corsOptions), function(req,res,next){
-//   console.log('test')
-//   console.log(req.json)
-//   console.log(req.url)
-//   console.log(req.method)
-//   console.log(res.url)
-//   console.log(res.method)
-//   console.log(res.method)
-//   next()
-// })
-
 // PLACES THE POSTS TO THE REQ OBJECT
 
 // if we have json, we will parse it
@@ -60,7 +35,7 @@ app.use(function(req,res,next){
     ip = "104.251.99.162"
   }
 
-
+//I HAD HELP HERE///////////////
   //input field value
   if (req.body.user_info_field) {
     if ( req.body.user_info_field.match(/\d+\.\d+\.\d+\.\d+/g)){
@@ -110,7 +85,7 @@ app.use(function(req,res,next){
     })
 
 })
-
+//I ALSO HAD HELP HERE///////////////
 function respondWeather(req, res){
   res.send({
     "City Name": !!req.weatherInfo && req.weatherInfo.name,
@@ -133,7 +108,7 @@ app.get("/enter", function(req,res){
   });
 });
 
-
+/////IGNORE ALL THIS/////////////
 // app.use('/', function(req, res, next){
 //   console.log('test')
 //   var ip = req.ip;
