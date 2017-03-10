@@ -5,7 +5,7 @@ As I was not able to complete the assignment in Koa, with the variation between 
 
 First: `npm install`
 
-To Run: 'DEBUG=express_test3:* npm start'
+To Run: `DEBUG=express_test3:* npm start`
 
 Navigate to `localhost:3000/enter`
 
