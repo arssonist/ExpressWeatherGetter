@@ -2,7 +2,7 @@ This is an attempt to satisfy developer challenge number 2.
 
 As I was not able to complete the assignment in Koa, with the variation between 1 and 2 I could not learn the Koa in time, I thought I might as well do the assignment in express.
 
-
+After clone, `git checkout make_home_page` to swtich to branch with best content.
 First: `npm install`
 
 To Run: `DEBUG=express_test3:* npm start`
